@@ -1,0 +1,157 @@
+function checkCashRegister(price, cash, cid) {
+  //CHANGEdue = cash - price
+  //for loop and add together money; funds = funds + cid[i][1]
+  //if changedue > funds return status = INSUFFICIENT FUNDS change []
+  //if changedue == funds return status CLOSED change = cid
+  //else (changedue < funds)
+  //
+  //if changedue / 100 >= 1, cid[8][1] = available, let needed = parseInt( changedue / 100 )*100, if needed < available changedue = changedue % 100, change.push["ONEHUNDRED", needed] if needed > available changedue = changedue - available, change.push["ONE HUNDRED", available] go through and then do an else insufficient funds
+
+  let changeDue = cash - price;
+  let funds = 0;
+  let status = "";
+  let change = [];
+  let obj = {"status": "", "change": []}
+  for (let i = 0; i < cid.length; i++) {
+    funds = funds + parseFloat(cid[i][1]);
+  }
+  funds = funds.toFixed(2);
+
+  if (changeDue > funds) {
+    obj["status"] = "INSUFFICIENT_FUNDS";
+    return obj;
+  }
+  if (changeDue == funds) {
+    obj["status"] = "CLOSED";
+    obj["change"] = cid;
+    return obj;
+  }
+  
+  else {
+    if (changeDue / 100 >= 1) {
+      let available = cid[8][1];
+      let needed = parseInt(changeDue / 100) * 100;
+      if (needed <= available) {
+        changeDue = changeDue % 100;
+        change.push(["ONE HUNDRED", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["ONE HUNDRED", available]);
+      }
+    }
+
+    if (changeDue / 20 >= 1) {
+      let available = cid[7][1];
+      let needed = parseInt(changeDue / 20) * 20;
+      if (needed <= available) {
+        changeDue = changeDue % 20;
+        change.push(["TWENTY", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["TWENTY", available]);
+      }
+    }
+
+    if (changeDue / 10 >= 1) {
+      let available = cid[6][1];
+      let needed = parseInt(changeDue / 10) * 10;
+      if (needed <= available) {
+        changeDue = changeDue % 10;
+        change.push(["TEN", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["TEN", available]);
+      }
+    }
+
+    if (changeDue / 5 >= 1) {
+      let available = cid[5][1];
+      let needed = parseInt(changeDue / 5) * 5;
+      if (needed <= available) {
+        changeDue = changeDue % 5;
+        change.push(["FIVE", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["FIVE", available]);
+      }
+    }
+
+    if (changeDue / 1 >= 1) {
+      let available = cid[4][1];
+      let needed = parseInt(changeDue / 1) * 1;
+      if (needed <= available) {
+        changeDue = changeDue % 1;
+        change.push(["ONE", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["ONE", available]);
+      }
+    }
+
+    if (changeDue / 0.25 >= 1) {
+      let available = cid[3][1];
+      let needed = parseInt(changeDue / 0.25) * 0.25;
+      if (needed <= available) {
+        changeDue = changeDue % 0.25;
+        change.push(["QUARTER", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["QUARTER", available]);
+      }
+    }
+
+    if (changeDue / 0.1 >= 1) {
+      let available = cid[2][1];
+      let needed = parseInt(changeDue / 0.1) * 0.1;
+      if (needed <= available) {
+        changeDue = changeDue % 0.1;
+        change.push(["DIME", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["DIME", available]);
+      }
+    }
+    if (changeDue / 0.05 >= 1) {
+      let available = cid[1][1];
+      let needed = parseInt(changeDue / 0.05) * 0.05;
+      if (needed <= available) {
+        changeDue = changeDue % 0.05;
+        change.push(["NICKEL", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["NICKEL", available]);
+      }
+    }
+
+    changeDue = changeDue.toFixed(2)
+    if (changeDue / 0.01 >= 1) {
+      let available = cid[0][1];
+      let needed = parseInt(changeDue / 0.01) * 0.01;
+      if (needed <= available) {
+        changeDue = changeDue % 0.01;
+        change.push(["PENNY", needed])
+      }
+      if (needed > available) {
+        changeDue = changeDue - available;
+        change.push(["PENNY", available]);
+      }
+    }
+    if(changeDue > 0) {
+      obj["status"] = "INSUFFICIENT_FUNDS";
+      return obj;
+    }
+    if(changeDue == 0) {
+      obj["status"] = "OPEN";
+      obj["change"] = change;
+      return obj
+    }
+  }
+}
